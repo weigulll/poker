@@ -1,0 +1,18 @@
+# Godot editor/import cache
+.godot/
+.import/
+imported/
+export_presets.cfg
+
+# Godot-generated temporary scene/resource files
+*.tmp
+*.tscn*.tmp
+*.scn*.tmp
+
+# Local screenshots and captures
+godot_screenshot*.png
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+desktop.ini

@@ -1,0 +1,88 @@
+[gd_scene format=3 uid="uid://cv3k4kryv6wr6"]
+
+[ext_resource type="Script" uid="uid://b4gke0sa5npnx" path="res://control.gd" id="1_qtu10"]
+[ext_resource type="Script" uid="uid://x27tq88egatb" path="res://cell.gd" id="2_ee4bf"]
+[ext_resource type="Script" uid="uid://nilnvj8dxfkb" path="res://script/control.gd" id="3_kbped"]
+
+[node name="Control" type="Control" unique_id=1882069187]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1.0
+offset_right = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_qtu10")
+
+[node name="GridContainer" type="GridContainer" parent="." unique_id=1712316182]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+columns = 10
+
+[node name="cell" type="Panel" parent="GridContainer" unique_id=1337283134]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+script = ExtResource("2_ee4bf")
+
+[node name="cell2" type="Panel" parent="GridContainer" unique_id=533237790]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+script = ExtResource("2_ee4bf")
+
+[node name="cell3" type="Panel" parent="GridContainer" unique_id=1253777369]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+script = ExtResource("2_ee4bf")
+
+[node name="cell4" type="Panel" parent="GridContainer" unique_id=507571770]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+script = ExtResource("2_ee4bf")
+
+[node name="cell5" type="Panel" parent="GridContainer" unique_id=1360073368]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+script = ExtResource("2_ee4bf")
+
+[node name="cell6" type="Panel" parent="GridContainer" unique_id=1658051740]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+script = ExtResource("2_ee4bf")
+
+[node name="cell7" type="Panel" parent="GridContainer" unique_id=267536285]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+script = ExtResource("2_ee4bf")
+
+[node name="cell8" type="Panel" parent="GridContainer" unique_id=185879807]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+script = ExtResource("2_ee4bf")
+
+[node name="cell9" type="Panel" parent="GridContainer" unique_id=629244434]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+script = ExtResource("2_ee4bf")
+
+[node name="cell10" type="Panel" parent="GridContainer" unique_id=1777136653]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+script = ExtResource("2_ee4bf")
+
+[node name="cell11" type="Panel" parent="GridContainer" unique_id=1303747738]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+script = ExtResource("2_ee4bf")
+
+[node name="cell12" type="Panel" parent="GridContainer" unique_id=1829806573]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+script = ExtResource("2_ee4bf")
+
+[node name="Control" type="Control" parent="." unique_id=435277957]
+anchors_preset = 0
+offset_right = 45.0
+offset_bottom = 42.0
+script = ExtResource("3_kbped")
