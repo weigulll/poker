@@ -1,20 +1,26 @@
 extends Area2D
 
 const CARD_SIZE := Vector2(112, 160)
-const CARD_RADIUS := 10.0
 const REST_SCALE := Vector2(1.0, 1.0)
 const HOVER_SCALE := Vector2(1.18, 1.18)
 const HELD_SCALE := Vector2(1.28, 1.28)
+const BOARD_SCALE := Vector2(0.42, 0.42)
+const DRAG_FOLLOW_SPEED := 18.0
 
 @export var rank := "2"
 @export var suit := "♠"
 
+var controller = null
 var home_position := Vector2.ZERO
 var home_rotation := 0.0
+var home_scale := REST_SCALE
 var home_index := 0
+var board_position := Vector2i(-1, -1)
+var in_hand := true
 var hovered := false
 var held := false
 var drag_offset := Vector2.ZERO
+var drag_target := Vector2.ZERO
 var rank_label: Label
 var suit_label: Label
 var corner_label: Label
@@ -29,12 +35,28 @@ func _ready() -> void:
 	queue_redraw()
 
 func set_hand_slot(slot_position: Vector2, slot_rotation: float, slot_index: int) -> void:
+	in_hand = true
+	board_position = Vector2i(-1, -1)
 	home_position = slot_position
 	home_rotation = slot_rotation
+	home_scale = REST_SCALE
 	home_index = slot_index
 	z_index = slot_index
 	if not held and not hovered:
-		animate_to(home_position, home_rotation, REST_SCALE, 0.18)
+		animate_to(home_position, home_rotation, home_scale, 0.18)
+
+func set_board_slot(slot_position: Vector2, grid_position: Vector2i, slot_index: int) -> void:
+	in_hand = false
+	board_position = grid_position
+	home_position = slot_position
+	home_rotation = 0.0
+	home_scale = BOARD_SCALE
+	home_index = slot_index
+	hovered = false
+	held = false
+	z_index = slot_index
+	animate_to(home_position, home_rotation, home_scale, 0.18)
+	queue_redraw()
 
 func ensure_labels() -> void:
 	rank_label = Label.new()
@@ -85,37 +107,63 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _process(_delta: float) -> void:
 	if held:
-		global_position = get_global_mouse_position() + drag_offset
+		drag_target = get_global_mouse_position() + drag_offset
+		var follow_weight := 1.0 - exp(-DRAG_FOLLOW_SPEED * _delta)
+		global_position = global_position.lerp(drag_target, follow_weight)
 
 func start_hold() -> void:
+	if controller != null and not controller.request_selection(self):
+		return
 	held = true
 	hovered = false
 	drag_offset = global_position - get_global_mouse_position()
+	drag_target = global_position
 	z_index = 300
 	animate_to(global_position, 0.0, HELD_SCALE, 0.08)
 	queue_redraw()
 
 func end_hold() -> void:
+	if not held:
+		return
+	held = false
+	if controller != null:
+		controller.release_selection(self)
+	else:
+		return_home()
+	queue_redraw()
+
+func return_home() -> void:
+	hovered = false
 	held = false
 	z_index = home_index
-	animate_to(home_position, home_rotation, REST_SCALE, 0.22)
+	animate_to(home_position, home_rotation, home_scale, 0.22)
 	queue_redraw()
 
 func _on_mouse_entered() -> void:
 	if held:
 		return
+	if controller != null and not controller.request_hover(self):
+		return
 	hovered = true
 	z_index = 200
-	animate_to(home_position + Vector2(0, -96), 0.0, HOVER_SCALE, 0.12)
+	if in_hand:
+		animate_to(home_position + Vector2(0, -96), 0.0, HOVER_SCALE, 0.12)
+	else:
+		animate_to(home_position + Vector2(0, -14), 0.0, BOARD_SCALE * 1.12, 0.12)
 	queue_redraw()
 
 func _on_mouse_exited() -> void:
 	if held:
 		return
+	cancel_hover()
+
+func cancel_hover() -> void:
+	if not hovered:
+		return
 	hovered = false
-	z_index = home_index
-	animate_to(home_position, home_rotation, REST_SCALE, 0.16)
-	queue_redraw()
+	if controller != null:
+		controller.clear_hover(self)
+	return_home()
 
 func animate_to(target_position: Vector2, target_rotation: float, target_scale: Vector2, duration: float) -> void:
 	if tween:
