@@ -11,6 +11,8 @@ export_presets.cfg
 
 # Local screenshots and captures
 godot_screenshot*.png
+*_screenshot*.png
+*_screen_capture.png
 
 # OS/editor noise
 .DS_Store
