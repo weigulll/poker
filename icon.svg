@@ -1,0 +1,10 @@
+<svg height="128" width="128" xmlns="http://www.w3.org/2000/svg">
+  <rect width="128" height="128" rx="18" fill="#20262e"/>
+  <rect x="18" y="42" width="92" height="44" rx="8" fill="#d35f3f"/>
+  <rect x="28" y="52" width="28" height="18" fill="#f2d58a"/>
+  <rect x="64" y="52" width="34" height="18" fill="#8dc4d6"/>
+  <circle cx="38" cy="92" r="10" fill="#111820"/>
+  <circle cx="90" cy="92" r="10" fill="#111820"/>
+  <path d="M21 34h36l8 8H29z" fill="#f0b33d"/>
+  <text x="64" y="31" text-anchor="middle" font-size="18" font-family="Arial" fill="#f7f1d0">末日</text>
+</svg>
